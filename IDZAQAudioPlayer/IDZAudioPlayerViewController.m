@@ -24,8 +24,8 @@
 #import "IDZAudioPlayerViewController.h"
 #import "IDZTrace.h"
 #import "IDZOggVorbisFileDecoder.h"
-
-
+#import "FlacFileDecoder.h"
+static FlacFileDecoder * decoder;
 
 /**
  * @brief IDZAudioPlayerViewController private internals.
@@ -83,15 +83,20 @@
 	// Do any additional setup after loading the view, typically from a nib.  
 
     NSError* error = nil;
-#if 1 // This plays the ogg file
-    NSURL* oggUrl = [[NSBundle mainBundle] URLForResource:@"Rondo_Alla_Turka" withExtension:@".ogg"];
+#if 0 // This plays the ogg file
+    
+    NSURL * oggUrl = [NSURL fileURLWithPath:@"/Users/brian/Music/OGG/OGG_CBR_192Kbits.ogg"];
+//    NSURL* oggUrl = [[NSBundle mainBundle] URLForResource:@"Rondo_Alla_Turka" withExtension:@".ogg"];
     IDZOggVorbisFileDecoder* decoder = [[IDZOggVorbisFileDecoder alloc] initWithContentsOfURL:oggUrl error:&error];
     NSLog(@"Ogg Vorbis file duration is %g", decoder.duration);
     self.player = [[IDZAQAudioPlayer alloc] initWithDecoder:decoder error:nil];
 #else
-    NSURL* url = [[NSBundle mainBundle] URLForResource:@"Rondo_Alla_Turka_Short" withExtension:@"aiff"];
-    NSAssert(url, @"URL is valid.");
-    self.player = [[IDZAVAudioPlayer alloc] initWithContentsOfURL:url error:&error];
+    NSURL * flacURL = [NSURL fileURLWithPath:@"/Users/brian/Music/FLAC/1.FLAC"];
+    NSURL * flac_24bit = [NSURL fileURLWithPath:@"/Users/brian/Music/FLAC/Sample_BeeMoved_96kHz24bit.flac"];
+    NSURL * flac_roundtest = [NSURL fileURLWithPath:@"/Users/brian/Music/FLAC/AudioRoundTest.flac"];
+    //    NSURL* oggUrl = [[NSBundle mainBundle] URLForResource:@"Rondo_Alla_Turka" withExtension:@".ogg"];
+    decoder = [[FlacFileDecoder alloc] initWithContentsOfURL:flac_roundtest error:&error];
+    self.player = [[IDZAQAudioPlayer alloc] initWithDecoder:decoder error:nil];
 #endif
     if(!self.player)
     {
