@@ -4,3 +4,6 @@
 [submodule "Frameworks/IDZPrecompiledVorbis"]
 	path = Frameworks/IDZPrecompiledVorbis
 	url = https://github.com/iosdevzone/IDZPrecompiledVorbis
+[submodule "IDZPrecompiledFLAC"]
+	path = IDZPrecompiledFLAC
+	url = git@github.com:iosdevzone/IDZPrecompiledFLAC.git
