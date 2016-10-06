@@ -131,6 +131,13 @@
     
 }
 - (BOOL)seekToTime:(NSTimeInterval)timeInterval error:(NSError*__autoreleasing*)error{
+    long seekFrame = totalFrames * sampleRate;
+    if (!FLAC__stream_decoder_seek_absolute(decoder, seekFrame)){
+        if(error!=nil){
+            *error = [NSError errorWithDomain:@"FlacFileDecoderErrorDomain" code:1050 userInfo:@{NSLocalizedDescriptionKey:@"FlacDecoder seek fail"}];
+        }
+        return NO;
+    }
     return YES;
 }
 #pragma mark - flac callbacks
