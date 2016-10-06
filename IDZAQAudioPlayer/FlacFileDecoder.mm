@@ -26,7 +26,7 @@
     long totalFrames;
 }
 @property AudioStreamBasicDescription dataFormat;
-@property NSTimeInterval duration;
+@property (nonatomic) NSTimeInterval duration;
 @property (strong, nullable) NSMutableDictionary * metadata;
 @end
 
@@ -49,13 +49,12 @@
 
 -(BOOL)setupNewDecompressor:(FLAC__StreamDecoder *)aDecoder{
     
-    
     FLAC__stream_decoder_set_metadata_respond(aDecoder, FLAC__METADATA_TYPE_VORBIS_COMMENT);
     FLAC__stream_decoder_set_metadata_respond(aDecoder, FLAC__METADATA_TYPE_PICTURE);
     
-    
     if (FLAC__stream_decoder_init_FILE(aDecoder, mpFile, WriteCallback, MetadataCallback, ErrorCallback, (__bridge void*)self) != FLAC__STREAM_DECODER_INIT_STATUS_OK){
         NSLog(@"fail to init Flac decoder");
+        return NO;
     }
     
     if(FLAC__stream_decoder_process_until_end_of_metadata(aDecoder) == false){
@@ -69,7 +68,18 @@
 
 -(void)dealloc{
     fclose(mpFile);
+    free(blockBuffer);
 }
+
+-(NSTimeInterval)duration{
+    if(totalFrames==0)
+        return 0.0;
+    if(sampleRate == 0)
+        return 0.0;
+    
+    return totalFrames/sampleRate;
+}
+
 
 -(void)fillOutASBD{
     FillOutASBDForLPCM(_dataFormat, sampleRate, channels, bitsPerSample, bitsPerSample, false, false);
@@ -80,7 +90,7 @@
     int bytesPerFrame = (bitsPerSample/8) * channels;
     
     
-    NSLog(@"pBuffer->mAudioDataBytesCapacity:%d bytes", pBuffer->mAudioDataBytesCapacity);
+//    NSLog(@"pBuffer->mAudioDataBytesCapacity:%d bytes", pBuffer->mAudioDataBytesCapacity);
     while (bytesRead < pBuffer->mAudioDataBytesCapacity) {
         if (FLAC__stream_decoder_get_state(decoder) == FLAC__STREAM_DECODER_END_OF_STREAM) {return NO;}
         if (FLAC__stream_decoder_get_state(decoder) == FLAC__STREAM_DECODER_SEEK_ERROR) {return NO;}
@@ -89,16 +99,16 @@
             if(!FLAC__stream_decoder_process_single(decoder)) { return NO; }
         }
         
-        NSLog(@"blockBufferFrames:%d, blockBufferFrames*bytesPerFrame:%d, pBuffer->mAudioDataBytesCapacity-bytesRead:%d", blockBufferFrames, blockBufferFrames*bytesPerFrame, (int)pBuffer->mAudioDataBytesCapacity-bytesRead);
+//        NSLog(@"blockBufferFrames:%d, blockBufferFrames*bytesPerFrame:%d, pBuffer->mAudioDataBytesCapacity-bytesRead:%d", blockBufferFrames, blockBufferFrames*bytesPerFrame, (int)pBuffer->mAudioDataBytesCapacity-bytesRead);
         int bytesToRead = blockBufferFrames * bytesPerFrame;
         
         //if bytesToRead > remaining buffer space , skip
         if(bytesToRead > pBuffer->mAudioDataBytesCapacity-bytesRead ){
-            NSLog(@"break writing buffer due to no space");
+//            NSLog(@"break writing buffer due to no space");
             break;
         }
         
-        NSLog(@"bytesToRead = %d", bytesToRead);
+//        NSLog(@"bytesToRead = %d", bytesToRead);
         
         
         memcpy(((uint8_t *)pBuffer->mAudioData) + bytesRead, (uint8_t *)blockBuffer, bytesToRead);
@@ -106,13 +116,8 @@
         bytesRead += bytesToRead;
         blockBufferFrames -= (bytesToRead/bytesPerFrame);
         
-        NSLog(@"bytesRead:%d", bytesRead);
-        
-        if (blockBufferFrames > 0) {
-            NSLog(@"Move remaining buffer, %d", blockBufferFrames);
-            memmove((uint8_t *)blockBuffer, ((uint8_t *)blockBuffer) + (bytesToRead), blockBufferFrames * bytesPerFrame);
+//        NSLog(@"bytesRead:%d", bytesRead);
         }
-    }
     
     
     pBuffer->mAudioDataByteSize = bytesRead;
@@ -191,8 +196,7 @@ FLAC__StreamDecoderWriteStatus WriteCallback(const FLAC__StreamDecoder *decoder,
         default:
             NSLog(@"Error, unsupported sample size.");
     }
-    NSLog(@"flac decoder set blockBufferFrames");
-    assert(flacDecoder->blockBufferFrames==0);
+    
     flacDecoder->blockBufferFrames = frame->header.blocksize;
     return FLAC__STREAM_DECODER_WRITE_STATUS_CONTINUE;
 }
