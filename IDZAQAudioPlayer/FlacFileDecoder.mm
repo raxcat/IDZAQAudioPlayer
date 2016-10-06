@@ -67,8 +67,13 @@
 }
 
 -(void)dealloc{
-    fclose(mpFile);
+    
+    FLAC__stream_decoder_delete(decoder);
+    decoder = NULL;
     free(blockBuffer);
+    blockBuffer = NULL;
+    fclose(mpFile);
+    mpFile = NULL;
 }
 
 -(NSTimeInterval)duration{
