@@ -58,20 +58,6 @@
         NSLog(@"fail to init Flac decoder");
     }
     
-//    if (FLAC__stream_decoder_init_stream(aDecoder,
-//                                         ReadCallback,
-//                                         SeekCallback,
-//                                         TellCallback,
-//                                         LengthCallback,
-//                                         EOFCallback,
-//                                         WriteCallback,
-//                                         MetadataCallback,
-//                                         ErrorCallback,
-//                                         (__bridge void*)self
-//                                         ) != FLAC__STREAM_DECODER_INIT_STATUS_OK) {
-//        return NO;
-//    }
-    
     if(FLAC__stream_decoder_process_until_end_of_metadata(aDecoder) == false){
         NSLog(@"fail to read Flac metadata");
         return NO;
@@ -79,6 +65,10 @@
     blockBuffer = malloc(SAMPLE_blockBuffer_SIZE);
     
     return YES;
+}
+
+-(void)dealloc{
+    fclose(mpFile);
 }
 
 -(void)fillOutASBD{
@@ -234,14 +224,12 @@ void MetadataCallback(const FLAC__StreamDecoder *decoder,
                                               length:picture.data_length];
         [flacDecoder.metadata setObject:picture_data forKey:@"picture"];
     } else if (metadata->type == FLAC__METADATA_TYPE_STREAMINFO) {
-        
         flacDecoder->channels = metadata->data.stream_info.channels;
         flacDecoder->sampleRate = metadata->data.stream_info.sample_rate;
         flacDecoder->bitsPerSample = metadata->data.stream_info.bits_per_sample;
         flacDecoder->totalFrames = (long)metadata->data.stream_info.total_samples;
         [flacDecoder fillOutASBD];
     }
-    NSLog(@"");
 }
 
 void ErrorCallback(const FLAC__StreamDecoder *decoder,
