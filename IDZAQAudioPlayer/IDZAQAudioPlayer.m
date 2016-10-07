@@ -204,8 +204,6 @@ static void IDZPropertyListener(void* inUserData,
     NSAssert(osStatus == noErr, @"AudioQueuePause failed");
     self.state = IDZAudioPlayerStatePaused;
     return (osStatus == noErr);
-    
-    
 }
 
 - (BOOL)stop
@@ -277,7 +275,7 @@ static void IDZPropertyListener(void* inUserData,
     switch(status)
     {
         case noErr:
-            currentTime = (NSTimeInterval)outTimeStamp.mSampleTime/self.decoder.dataFormat.mSampleRate + mQueueStartTime;
+            currentTime = (NSTimeInterval)outTimeStamp.mSampleTime/self.decoder.dataFormat.mSampleRate ;
             break;
         case kAudioQueueErr_InvalidRunState:
             currentTime = 0.0;
