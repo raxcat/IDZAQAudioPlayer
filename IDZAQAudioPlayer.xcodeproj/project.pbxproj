@@ -24,6 +24,10 @@
 		0C2E08F6170F9FEE00450410 /* Rondo_Alla_Turka.ogg in Resources */ = {isa = PBXBuildFile; fileRef = 0C2E08F5170F9FEE00450410 /* Rondo_Alla_Turka.ogg */; };
 		0C6C5B6519EA22B7007E3476 /* Vorbis.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 0C6C5B6419EA22B7007E3476 /* Vorbis.framework */; };
 		0C6C5B6719EA22C2007E3476 /* Ogg.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 0C6C5B6619EA22C2007E3476 /* Ogg.framework */; };
+		D3B28BB11DA76C2F007102FA /* AVFoundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = D3B28BB01DA76C2F007102FA /* AVFoundation.framework */; };
+		D3B28BB51DA7702C007102FA /* 1.FLAC in Resources */ = {isa = PBXBuildFile; fileRef = D3B28BB21DA7702C007102FA /* 1.FLAC */; };
+		D3B28BB61DA7702C007102FA /* AudioRoundTest.flac in Resources */ = {isa = PBXBuildFile; fileRef = D3B28BB31DA7702C007102FA /* AudioRoundTest.flac */; };
+		D3B28BB71DA7702C007102FA /* Sample_BeeMoved_96kHz24bit.flac in Resources */ = {isa = PBXBuildFile; fileRef = D3B28BB41DA7702C007102FA /* Sample_BeeMoved_96kHz24bit.flac */; };
 		D3F488D11DA254F6007424C4 /* FlacFileDecoder.mm in Sources */ = {isa = PBXBuildFile; fileRef = D3F488D01DA254F6007424C4 /* FlacFileDecoder.mm */; };
 		D3F488D31DA25628007424C4 /* FLAC.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = D3F488D21DA25628007424C4 /* FLAC.framework */; };
 /* End PBXBuildFile section */
@@ -55,6 +59,10 @@
 		0C2E08F7170FA0CE00450410 /* IDZAudioPlayer.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = IDZAudioPlayer.h; sourceTree = "<group>"; };
 		0C6C5B6419EA22B7007E3476 /* Vorbis.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Vorbis.framework; path = Frameworks/IDZPrecompiledVorbis/Vorbis.framework; sourceTree = "<group>"; };
 		0C6C5B6619EA22C2007E3476 /* Ogg.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Ogg.framework; path = Frameworks/IDZPrecompiledOgg/Ogg.framework; sourceTree = "<group>"; };
+		D3B28BB01DA76C2F007102FA /* AVFoundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AVFoundation.framework; path = System/Library/Frameworks/AVFoundation.framework; sourceTree = SDKROOT; };
+		D3B28BB21DA7702C007102FA /* 1.FLAC */ = {isa = PBXFileReference; lastKnownFileType = file; path = 1.FLAC; sourceTree = "<group>"; };
+		D3B28BB31DA7702C007102FA /* AudioRoundTest.flac */ = {isa = PBXFileReference; lastKnownFileType = file; path = AudioRoundTest.flac; sourceTree = "<group>"; };
+		D3B28BB41DA7702C007102FA /* Sample_BeeMoved_96kHz24bit.flac */ = {isa = PBXFileReference; lastKnownFileType = file; path = Sample_BeeMoved_96kHz24bit.flac; sourceTree = "<group>"; };
 		D3F488CF1DA254F6007424C4 /* FlacFileDecoder.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FlacFileDecoder.h; sourceTree = "<group>"; };
 		D3F488D01DA254F6007424C4 /* FlacFileDecoder.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = FlacFileDecoder.mm; sourceTree = "<group>"; };
 		D3F488D21DA25628007424C4 /* FLAC.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = FLAC.framework; path = IDZPrecompiledFLAC/FLAC.framework; sourceTree = "<group>"; };
@@ -65,6 +73,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				D3B28BB11DA76C2F007102FA /* AVFoundation.framework in Frameworks */,
 				D3F488D31DA25628007424C4 /* FLAC.framework in Frameworks */,
 				0C6C5B6719EA22C2007E3476 /* Ogg.framework in Frameworks */,
 				0C2E08F4170F9E8900450410 /* AudioToolbox.framework in Frameworks */,
@@ -81,6 +90,9 @@
 		0C2E08B3170F833400450410 = {
 			isa = PBXGroup;
 			children = (
+				D3B28BB21DA7702C007102FA /* 1.FLAC */,
+				D3B28BB31DA7702C007102FA /* AudioRoundTest.flac */,
+				D3B28BB41DA7702C007102FA /* Sample_BeeMoved_96kHz24bit.flac */,
 				0C2E08C5170F833500450410 /* IDZAQAudioPlayer */,
 				0C2E08BE170F833400450410 /* Frameworks */,
 				0C2E08BD170F833400450410 /* Products */,
@@ -98,6 +110,7 @@
 		0C2E08BE170F833400450410 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				D3B28BB01DA76C2F007102FA /* AVFoundation.framework */,
 				D3F488D21DA25628007424C4 /* FLAC.framework */,
 				0C6C5B6619EA22C2007E3476 /* Ogg.framework */,
 				0C6C5B6419EA22B7007E3476 /* Vorbis.framework */,
@@ -197,6 +210,9 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				D3B28BB51DA7702C007102FA /* 1.FLAC in Resources */,
+				D3B28BB61DA7702C007102FA /* AudioRoundTest.flac in Resources */,
+				D3B28BB71DA7702C007102FA /* Sample_BeeMoved_96kHz24bit.flac in Resources */,
 				0C2E08CA170F833500450410 /* InfoPlist.strings in Resources */,
 				0C2E08D2170F833500450410 /* Default.png in Resources */,
 				0C2E08D4170F833500450410 /* Default@2x.png in Resources */,
