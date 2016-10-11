@@ -91,11 +91,12 @@ static FlacFileDecoder * decoder;
     NSLog(@"Ogg Vorbis file duration is %g", decoder.duration);
     self.player = [[IDZAQAudioPlayer alloc] initWithDecoder:decoder error:nil];
 #else
-    NSURL * flacURL = [NSURL fileURLWithPath:@"/Users/brian/Music/FLAC/1.FLAC"];
-    NSURL * flac_24bit = [NSURL fileURLWithPath:@"/Users/brian/Music/FLAC/Sample_BeeMoved_96kHz24bit.flac"];
-    NSURL * flac_roundtest = [NSURL fileURLWithPath:@"/Users/brian/Music/FLAC/AudioRoundTest.flac"];
+    NSURL * flacURL = [[NSBundle mainBundle] URLForResource:@"1" withExtension:@"FLAC"];
+    NSURL * flac_24bit = [[NSBundle mainBundle] URLForResource:@"Sample_BeeMoved_96kHz24bit" withExtension:@"flac"];
+    NSURL * flac_roundtest = [[NSBundle mainBundle] URLForResource:@"AudioRoundTest" withExtension:@"flac"];
+    
     //    NSURL* oggUrl = [[NSBundle mainBundle] URLForResource:@"Rondo_Alla_Turka" withExtension:@".ogg"];
-    decoder = [[FlacFileDecoder alloc] initWithContentsOfURL:flac_roundtest error:&error];
+    decoder = [[FlacFileDecoder alloc] initWithContentsOfURL:flac_24bit error:&error];
     self.player = [[IDZAQAudioPlayer alloc] initWithDecoder:decoder error:nil];
 #endif
     if(!self.player)
