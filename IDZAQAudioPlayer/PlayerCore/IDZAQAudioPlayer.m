@@ -77,7 +77,7 @@ typedef enum IDZAudioPlayStateTag
 /**
  * @brief The decoder associated with this player.
  */
-@property (readonly, strong) id<IDZAudioDecoder> decoder;
+//@property (readonly, strong) id<IDZAudioDecoder> decoder;
 /**
  * @brief The current player state.
  */
@@ -111,8 +111,14 @@ static void IDZPropertyListener(void* inUserData,
     {
         UInt32 isRunning = [pPlayer queryIsRunning];
         NSLog(@"isRunning = %u", (unsigned int)isRunning);
+        BOOL bDidStart = (!pPlayer.playing && isRunning);
         BOOL bDidFinish = (pPlayer.playing && !isRunning);
         pPlayer.playing = isRunning ? YES : NO;
+        
+        if(bDidStart){
+            [pPlayer.delegate audioPlayerDidStartPlaying:pPlayer];
+        }
+        
         if(bDidFinish)
         {
             [pPlayer.delegate audioPlayerDidFinishPlaying:pPlayer
@@ -169,6 +175,10 @@ static void IDZPropertyListener(void* inUserData,
     return self;
 }
 
+-(id<IDZAudioDecoder>) decoder{
+    return mDecoder;
+}
+
 - (BOOL)prepareToPlay
 {
     for(int i = 0; i < IDZ_BUFFER_COUNT; ++i)
@@ -193,7 +203,7 @@ static void IDZPropertyListener(void* inUserData,
     OSStatus osStatus = AudioQueueStart(mQueue, NULL);
     NSAssert(osStatus == noErr, @"AudioQueueStart failed");
     self.state = IDZAudioPlayerStatePlaying;
-    self.playing = YES;
+//    self.playing = YES;
     return (osStatus == noErr);
     
 }
@@ -341,4 +351,9 @@ static void IDZPropertyListener(void* inUserData,
     }
     mState = state;
 }
+
+-(NSURL*)currentFile{
+    return mDecoder.fileURL;
+}
+
 @end

@@ -38,6 +38,7 @@
 {
 @private
     FILE* mpFile;
+    NSURL *fileURL;
     OggVorbis_File mOggVorbisFile;
 }
 
@@ -52,6 +53,7 @@
     NSParameterAssert([url isFileURL]);
     if(self = [super init])
     {
+        fileURL = url;
         NSString* path = [url path];
         mpFile = fopen([path UTF8String], "r");
         NSAssert(mpFile, @"fopen succeeded.");
@@ -133,4 +135,7 @@
     return (NSTimeInterval)duration;
 }
 
+-(NSURL*)fileURL{
+    return fileURL;
+}
 @end

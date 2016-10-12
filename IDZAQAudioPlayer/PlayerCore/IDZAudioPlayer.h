@@ -22,13 +22,19 @@
 // OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 // THE SOFTWARE.
 #import <Foundation/Foundation.h>
-
+#import "IDZAudioDecoder.h"
 
 @protocol IDZAudioPlayer;
 /**
  * @brief Receives notifications when playback ends.
  */
 @protocol IDZAudioPlayerDelegate
+@optional
+/**
+ * @brief Called when playback starts.
+ */
+- (void)audioPlayerDidStartPlaying:(id<IDZAudioPlayer>)player;
+
 /**
  * @brief Called when playback ends.
  */
@@ -50,7 +56,14 @@
  * @see IDZAQAudioPlayer
  */
 @protocol IDZAudioPlayer <NSObject>
-
+/**
+ * @brief Initialized the receiver to play audio from a specified decoder.
+ *
+ * @param decoder the decoder to obtain audio data from, must no be nil.
+ * @param error will receive error information if not nil.
+ * @return a pointer to the receiver or nil if an error occurs.
+ */
+- (id)initWithDecoder:(id<IDZAudioDecoder>)decoder error:(NSError**)error;
 /**
  * @brief Pre-queues buffers for faster response to #play
  */
@@ -93,5 +106,9 @@
  * @brief Current audio device time in seconds.
  */
 @property(readonly) NSTimeInterval deviceCurrentTime;
+
+@property(readonly) id<IDZAudioDecoder> decoder;
+
+@property(readonly) NSURL * currentFile;
 
 @end

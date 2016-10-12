@@ -16,6 +16,7 @@
 @interface FlacFileDecoder(){
 @private
     FILE* mpFile;
+    NSURL * fileURL;
     void *blockBuffer;
     int blockBufferFrames;
     FLAC__StreamDecoder *decoder;
@@ -37,6 +38,7 @@
     NSParameterAssert([url isFileURL]);
     self = [super init];
     if(self){
+        fileURL = url;
         NSString* path = [url path];
         mpFile = fopen([path UTF8String], "r");
         decoder = FLAC__stream_decoder_new();
@@ -251,6 +253,11 @@ void MetadataCallback(const FLAC__StreamDecoder *decoder,
 void ErrorCallback(const FLAC__StreamDecoder *decoder,
                    FLAC__StreamDecoderErrorStatus status,
                    void *client_data) {
+}
+
+
+-(NSURL*)fileURL{
+    return fileURL;
 }
 
 @end
