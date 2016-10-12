@@ -46,7 +46,6 @@
 		0C2E08D1170F833500450410 /* Default.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = Default.png; sourceTree = "<group>"; };
 		0C2E08D3170F833500450410 /* Default@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Default@2x.png"; sourceTree = "<group>"; };
 		0C2E08D5170F833500450410 /* Default-568h@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Default-568h@2x.png"; sourceTree = "<group>"; };
-		0C2E08E2170F8EE800450410 /* IDZAudioDecoder.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = IDZAudioDecoder.h; sourceTree = "<group>"; };
 		0C2E08E6170F9D9000450410 /* IDZAudioPlayerViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = IDZAudioPlayerViewController.h; sourceTree = "<group>"; };
 		0C2E08E7170F9D9000450410 /* IDZAudioPlayerViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = IDZAudioPlayerViewController.m; sourceTree = "<group>"; };
 		0C2E08EA170F9DA200450410 /* en */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = en; path = en.lproj/IDZAudioPlayerViewController.xib; sourceTree = "<group>"; };
@@ -66,6 +65,8 @@
 		D3FA3E951DADD94C00CF0DA3 /* IDZAudioPlayer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = IDZAudioPlayer.h; sourceTree = "<group>"; };
 		D3FA3E961DADD94C00CF0DA3 /* IDZOggVorbisFileDecoder.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = IDZOggVorbisFileDecoder.h; sourceTree = "<group>"; };
 		D3FA3E971DADD94C00CF0DA3 /* IDZOggVorbisFileDecoder.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = IDZOggVorbisFileDecoder.mm; sourceTree = "<group>"; };
+		D3FA3E9B1DADDDA600CF0DA3 /* IDZAudioDecoder.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = IDZAudioDecoder.h; sourceTree = "<group>"; };
+		D3FA3E9D1DADDDBF00CF0DA3 /* IDZTrace.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = IDZTrace.h; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -131,7 +132,6 @@
 				0C2E08E7170F9D9000450410 /* IDZAudioPlayerViewController.m */,
 				0C2E08CE170F833500450410 /* IDZAQAudioPlayerAppDelegate.h */,
 				0C2E08CF170F833500450410 /* IDZAQAudioPlayerAppDelegate.m */,
-				0C2E08E2170F8EE800450410 /* IDZAudioDecoder.h */,
 				0C2E08C6170F833500450410 /* Supporting Files */,
 			);
 			name = App;
@@ -156,13 +156,15 @@
 		D3FA3E901DADD94C00CF0DA3 /* PlayerCore */ = {
 			isa = PBXGroup;
 			children = (
-				D3FA3E911DADD94C00CF0DA3 /* FlacFileDecoder.h */,
-				D3FA3E921DADD94C00CF0DA3 /* FlacFileDecoder.mm */,
 				D3FA3E931DADD94C00CF0DA3 /* IDZAQAudioPlayer.h */,
 				D3FA3E941DADD94C00CF0DA3 /* IDZAQAudioPlayer.m */,
 				D3FA3E951DADD94C00CF0DA3 /* IDZAudioPlayer.h */,
+				D3FA3E9B1DADDDA600CF0DA3 /* IDZAudioDecoder.h */,
 				D3FA3E961DADD94C00CF0DA3 /* IDZOggVorbisFileDecoder.h */,
 				D3FA3E971DADD94C00CF0DA3 /* IDZOggVorbisFileDecoder.mm */,
+				D3FA3E911DADD94C00CF0DA3 /* FlacFileDecoder.h */,
+				D3FA3E921DADD94C00CF0DA3 /* FlacFileDecoder.mm */,
+				D3FA3E9D1DADDDBF00CF0DA3 /* IDZTrace.h */,
 			);
 			name = PlayerCore;
 			path = IDZAQAudioPlayer/PlayerCore;
