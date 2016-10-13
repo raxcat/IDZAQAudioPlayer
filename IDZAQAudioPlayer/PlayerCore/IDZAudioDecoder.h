@@ -71,4 +71,6 @@
 
 @property (readonly) NSURL * fileURL;
 
+@property (readonly) NSData * coverImageData;
+
 @end

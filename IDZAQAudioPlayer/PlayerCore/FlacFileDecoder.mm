@@ -260,5 +260,9 @@ void ErrorCallback(const FLAC__StreamDecoder *decoder,
     return fileURL;
 }
 
+-(NSData*)coverImageData{
+    return self.metadata[@"picture"];
+}
+
 @end
 

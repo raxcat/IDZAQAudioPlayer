@@ -356,4 +356,8 @@ static void IDZPropertyListener(void* inUserData,
     return mDecoder.fileURL;
 }
 
+-(NSData*)coverImageData{
+    return mDecoder.coverImageData;
+}
+
 @end

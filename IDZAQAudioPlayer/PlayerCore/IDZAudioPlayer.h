@@ -111,4 +111,9 @@
 
 @property(readonly) NSURL * currentFile;
 
+/**
+ Cover image.
+ */
+@property(readonly) NSData * coverImageData;
+
 @end

@@ -138,4 +138,8 @@
 -(NSURL*)fileURL{
     return fileURL;
 }
+
+-(NSData*)coverImageData{
+    return nil;
+}
 @end
