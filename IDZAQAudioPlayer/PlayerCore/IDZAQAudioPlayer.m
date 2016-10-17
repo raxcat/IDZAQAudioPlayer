@@ -41,7 +41,8 @@ typedef enum IDZAudioPlayStateTag
     IDZAudioPlayerStatePrepared,
     IDZAudioPlayerStatePlaying,
     IDZAudioPlayerStatePaused,
-    IDZAudioPlayerStateStopping
+    IDZAudioPlayerStateStopping,
+    IDZAudioPlayerStateSeeking,
     
 } IDZAudioPlayerState;
 
@@ -112,7 +113,7 @@ static void IDZPropertyListener(void* inUserData,
         UInt32 isRunning = [pPlayer queryIsRunning];
         NSLog(@"isRunning = %u", (unsigned int)isRunning);
         BOOL bDidStart = (!pPlayer.playing && isRunning);
-        BOOL bDidFinish = (pPlayer.playing && !isRunning);
+        BOOL bDidFinish = (pPlayer.playing && !isRunning && pPlayer.state == IDZAudioPlayerStateStopping);
         pPlayer.playing = isRunning ? YES : NO;
         
         if(bDidStart){
@@ -223,7 +224,9 @@ static void IDZPropertyListener(void* inUserData,
 
 - (BOOL)stop:(BOOL)immediate
 {
-    self.state = IDZAudioPlayerStateStopping;
+    if(!forSeek){ //don't change state for while seeking
+        self.state = IDZAudioPlayerStateStopping;
+    }
     OSStatus osStatus = AudioQueueStop(mQueue, immediate);
 
     NSAssert(osStatus == noErr, @"AudioQueueStop failed");
@@ -303,7 +306,8 @@ static void IDZPropertyListener(void* inUserData,
     switch(self.state)
     {
         case IDZAudioPlayerStatePlaying:
-            [self stop:YES];
+            self.state = IDZAudioPlayerStateSeeking;
+            [self stop:YES forSeek:YES];
             break;
         default:
             break;
