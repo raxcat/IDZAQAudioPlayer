@@ -56,6 +56,7 @@ typedef enum IDZAudioPlayStateTag
     AudioQueueBufferRef mBuffers[IDZ_BUFFER_COUNT];
     BOOL mStopping;
     NSTimeInterval mQueueStartTime;
+    BOOL _shouldNotifyStop;
 }
 /**
  * @brief Queries the value of the Audio Queue's kAudioQueueProperty_IsRunning property.
@@ -70,7 +71,7 @@ typedef enum IDZAudioPlayStateTag
  * @param immediate if YES playback stops immediately, otherwise playback stops after all enqueued buffers 
  * have finished playing.
  */
-- (BOOL)stop:(BOOL)immediate;
+- (BOOL)stop:(BOOL)immediate forSeek:(BOOL)forSeek;
 /**
  * @brief YES if the player is playing, NO otherwise.
  */
@@ -120,7 +121,7 @@ static void IDZPropertyListener(void* inUserData,
             [pPlayer.delegate audioPlayerDidStartPlaying:pPlayer];
         }
         
-        if(bDidFinish)
+        if(bDidFinish && pPlayer->_shouldNotifyStop == YES)
         {
             [pPlayer.delegate audioPlayerDidFinishPlaying:pPlayer
                                               successfully:YES];
@@ -205,6 +206,7 @@ static void IDZPropertyListener(void* inUserData,
     NSAssert(osStatus == noErr, @"AudioQueueStart failed");
     self.state = IDZAudioPlayerStatePlaying;
 //    self.playing = YES;
+    _shouldNotifyStop = YES;
     return (osStatus == noErr);
     
 }
@@ -219,10 +221,15 @@ static void IDZPropertyListener(void* inUserData,
 
 - (BOOL)stop
 {
-    return [self stop:YES];
+    return [self stop:YES forSeek:NO];
 }
 
-- (BOOL)stop:(BOOL)immediate
+- (BOOL)stopWithoutNotify{
+    _shouldNotifyStop = NO;
+    return [self stop];
+}
+
+- (BOOL)stop:(BOOL)immediate forSeek:(BOOL)forSeek
 {
     if(!forSeek){ //don't change state for while seeking
         self.state = IDZAudioPlayerStateStopping;
@@ -325,6 +332,7 @@ static void IDZPropertyListener(void* inUserData,
         default:
             break;
     }
+    self.state = previousState;
 }
 
 - (NSUInteger)numberOfChannels

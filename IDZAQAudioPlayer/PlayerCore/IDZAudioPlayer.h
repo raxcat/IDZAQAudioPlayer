@@ -81,6 +81,11 @@
  */
 - (BOOL)stop;
 
+/**
+ * @brief Stops playback. But audioPlayerDidFinishPlaying:successfully: will not be called.
+ */
+- (BOOL)stopWithoutNotify;
+
 /* properties */
 /**
  * @brief YES when the player is playing, NO otherwise.
