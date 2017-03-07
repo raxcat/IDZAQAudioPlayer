@@ -118,7 +118,11 @@ static void IDZPropertyListener(void* inUserData,
         pPlayer.playing = isRunning ? YES : NO;
         
         if(bDidStart){
-            [pPlayer.delegate audioPlayerDidStartPlaying:pPlayer];
+            // nPlayer.delegate?.audioPlayerDidStartPlaying?(nPlayer)
+            
+            if( [pPlayer.delegate respondsToSelector:@selector(audioPlayerDidStartPlaying:)] ){
+                [pPlayer.delegate audioPlayerDidStartPlaying:pPlayer];
+            }
         }
         
         if(bDidFinish && pPlayer->_shouldNotifyStop == YES)
