@@ -186,6 +186,13 @@ static void IDZPropertyListener(void* inUserData,
     return mDecoder;
 }
 
+-(void)dealloc{
+    if(mQueue) {
+        AudioQueueDispose(mQueue, true);
+        mQueue = 0;
+    }
+}
+
 - (BOOL)prepareToPlay
 {
     for(int i = 0; i < IDZ_BUFFER_COUNT; ++i)
