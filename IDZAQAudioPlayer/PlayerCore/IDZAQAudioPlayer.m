@@ -162,7 +162,8 @@ static void IDZPropertyListener(void* inUserData,
         for(int i = 0; i < IDZ_BUFFER_COUNT; ++i)
         {
             UInt32 bufferSize = 128 * 1024;
-            status = AudioQueueAllocateBuffer(mQueue, bufferSize, &mBuffers[i]);
+            //status = AudioQueueAllocateBuffer(mQueue, bufferSize, &mBuffers[i]);
+            status = AudioQueueAllocateBufferWithPacketDescriptions(mQueue, bufferSize, 50, &mBuffers[i]);
             if(status != noErr)
             {
                 if(*error)
