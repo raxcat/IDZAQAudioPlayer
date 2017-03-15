@@ -41,20 +41,25 @@ class GenericFileDecoder : NSObject, IDZAudioDecoder {
         }
         
         // get data format
-        var formatSize = UInt32(MemoryLayout.stride(ofValue: dataFormat))
-        result = AudioFileGetProperty(audioFileID!, kAudioFilePropertyDataFormat, &formatSize, &dataFormat)
+        var size = UInt32(MemoryLayout.stride(ofValue: dataFormat))
+        result = AudioFileGetProperty(audioFileID!, kAudioFilePropertyDataFormat, &size, &dataFormat)
         guard result == noErr else {
             return
         }
         
         // get duration
-        var propSize:UInt32 = UInt32(MemoryLayout<TimeInterval>.stride)
-        result = AudioFileGetProperty(audioFileID!, kAudioFilePropertyEstimatedDuration, &propSize, &duration)
+        size = UInt32(MemoryLayout<TimeInterval>.stride)
+        result = AudioFileGetProperty(audioFileID!, kAudioFilePropertyEstimatedDuration, &size, &duration)
         
         // get total packets
-        var uInt64Size:UInt32 = UInt32(MemoryLayout<UInt64>.stride)
-        result = AudioFileGetProperty(audioFileID!, kAudioFilePropertyAudioDataPacketCount, &uInt64Size, &totalPackets)
+        size = UInt32(MemoryLayout<UInt64>.stride)
+        result = AudioFileGetProperty(audioFileID!, kAudioFilePropertyAudioDataPacketCount, &size, &totalPackets)
         
+        //get image
+        result = AudioFileGetPropertyInfo(audioFileID!, kAudioFilePropertyAlbumArtwork, &size, nil)
+        if result == noErr {
+            AudioFileGetProperty(audioFileID!, kAudioFilePropertyAlbumArtwork, &size, &coverImageData)
+        }
         print("duration:\(duration), totalPackets:\(totalPackets)")
         
         //var isFormatVBR = dataFormat.mBytesPerPacket == 0 || dataFormat.mFramesPerPacket == 0
