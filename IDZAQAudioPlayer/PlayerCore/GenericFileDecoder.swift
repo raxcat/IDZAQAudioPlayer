@@ -37,14 +37,14 @@ class GenericFileDecoder : NSObject, IDZAudioDecoder {
         let audioFileUrl = url as CFURL
         result = AudioFileOpenURL(audioFileUrl, .readPermission, 0, &audioFileID)
         guard result == noErr else {
-            return
+            throw NSError(domain: "AudioFileOpenURLFailed", code: Int(result), userInfo: nil)
         }
         
         // get data format
         var size = UInt32(MemoryLayout.stride(ofValue: dataFormat))
         result = AudioFileGetProperty(audioFileID!, kAudioFilePropertyDataFormat, &size, &dataFormat)
         guard result == noErr else {
-            return
+            throw NSError(domain: "AudioFileGetPropertyFailed", code: Int(result), userInfo: nil)
         }
         
         // get duration
@@ -60,19 +60,14 @@ class GenericFileDecoder : NSObject, IDZAudioDecoder {
         if result == noErr {
             AudioFileGetProperty(audioFileID!, kAudioFilePropertyAlbumArtwork, &size, &coverImageData)
         }
-        print("duration:\(duration), totalPackets:\(totalPackets)")
-        
-        //var isFormatVBR = dataFormat.mBytesPerPacket == 0 || dataFormat.mFramesPerPacket == 0
-        print("\(dataFormat.mBytesPerPacket), \(dataFormat.mFramesPerPacket)")
-
     }
     
     deinit {
         AudioFileClose(audioFileID!)
     }
     
-    var fileURL: URL!
-    var coverImageData: Data!
+    var fileURL: URL
+    var coverImageData: Data?
     var dataFormat: AudioStreamBasicDescription = AudioStreamBasicDescription()
     var duration: TimeInterval = 0.0
     
