@@ -58,6 +58,7 @@ static FlacFileDecoder * decoder;
 //- (void)audioPlayerDecodeErrorDidOccur:(id<IDZAudioPlayer>)player
 //                                 error:(NSError *)error;
 
+
 @end
 
 @implementation IDZAudioPlayerViewController
@@ -74,6 +75,7 @@ static FlacFileDecoder * decoder;
 @synthesize stopButton = mStopButton;
 @synthesize player = mPlayer;
 @synthesize timer = mTimer;
+@synthesize coverImage = mCoverImage;
 
 
 #pragma mark - View Lifecycle
@@ -111,6 +113,9 @@ static FlacFileDecoder * decoder;
     self.numberOfChannelsLabel.text = [NSString stringWithFormat:@"%lu", (unsigned long)self.player.numberOfChannels];
     self.currentTimeSlider.minimumValue = 0.0f;
     self.currentTimeSlider.maximumValue = self.player.duration;
+    if(decoder.coverImageData != NULL) {
+        mCoverImage.image = [UIImage imageWithData:decoder.coverImageData];
+    }
     [self updateDisplay];
     
     [self setupAudioSession];

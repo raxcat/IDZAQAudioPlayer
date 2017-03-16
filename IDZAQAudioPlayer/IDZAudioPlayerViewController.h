@@ -74,6 +74,10 @@
  */
 @property (weak, nonatomic) IBOutlet UIButton *stopButton;
 /**
+ * @brief ImageView that show cover image:
+ */
+@property (weak, nonatomic) IBOutlet UIImageView *coverImage;
+/**
  * @brief Begins playback.
  */
 - (IBAction)play:(id)sender;
