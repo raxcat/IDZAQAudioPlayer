@@ -28,7 +28,7 @@
 /**
  * @brief Receives notifications when playback ends.
  */
-@protocol IDZAudioPlayerDelegate
+@protocol IDZAudioPlayerDelegate<NSObject>
 @optional
 /**
  * @brief Called when playback starts.

@@ -118,7 +118,11 @@ static void IDZPropertyListener(void* inUserData,
         pPlayer.playing = isRunning ? YES : NO;
         
         if(bDidStart){
-            [pPlayer.delegate audioPlayerDidStartPlaying:pPlayer];
+            // nPlayer.delegate?.audioPlayerDidStartPlaying?(nPlayer)
+            
+            if( [pPlayer.delegate respondsToSelector:@selector(audioPlayerDidStartPlaying:)] ){
+                [pPlayer.delegate audioPlayerDidStartPlaying:pPlayer];
+            }
         }
         
         if(bDidFinish && pPlayer->_shouldNotifyStop == YES)
@@ -158,7 +162,8 @@ static void IDZPropertyListener(void* inUserData,
         for(int i = 0; i < IDZ_BUFFER_COUNT; ++i)
         {
             UInt32 bufferSize = 128 * 1024;
-            status = AudioQueueAllocateBuffer(mQueue, bufferSize, &mBuffers[i]);
+            //status = AudioQueueAllocateBuffer(mQueue, bufferSize, &mBuffers[i]);
+            status = AudioQueueAllocateBufferWithPacketDescriptions(mQueue, bufferSize, 50, &mBuffers[i]);
             if(status != noErr)
             {
                 if(*error)
@@ -179,6 +184,13 @@ static void IDZPropertyListener(void* inUserData,
 
 -(id<IDZAudioDecoder>) decoder{
     return mDecoder;
+}
+
+-(void)dealloc{
+    if(mQueue) {
+        AudioQueueDispose(mQueue, true);
+        mQueue = 0;
+    }
 }
 
 - (BOOL)prepareToPlay
