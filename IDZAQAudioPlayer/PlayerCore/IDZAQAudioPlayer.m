@@ -154,7 +154,7 @@ static void IDZPropertyListener(void* inUserData,
                                               kCFRunLoopCommonModes,
                                               0,
                                               &mQueue);
-        NSAssert(status == noErr, @"Audio queue creation was successful.");
+        NSAssert(status == noErr, @"Audio queue creation was not successful.");
         AudioQueueSetParameter(mQueue, kAudioQueueParam_Volume, 1.0);
         status = AudioQueueAddPropertyListener(mQueue, kAudioQueueProperty_IsRunning,
                                                IDZPropertyListener, (__bridge void*)self);
