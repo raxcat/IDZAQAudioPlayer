@@ -8,8 +8,8 @@
 
 import Foundation
 
-class GenericFileDecoder : NSObject, IDZAudioDecoder {
-    func read(_ buffer: AudioQueueBufferRef!) -> Bool {
+public class GenericFileDecoder : NSObject, IDZAudioDecoder {
+    public func read(_ buffer: AudioQueueBufferRef!) -> Bool {
         var numPackets : UInt32 = 50
         var numBytes:UInt32 = 1000
 
@@ -25,13 +25,13 @@ class GenericFileDecoder : NSObject, IDZAudioDecoder {
         }
     }
     
-    func seek(toTime timeInterval: TimeInterval) throws {
+    public func seek(toTime timeInterval: TimeInterval) throws {
         currentPacket = Int64(timeInterval*Double(totalPackets)/duration)
     }
     
 
     
-    required init(contentsOf url: URL!) throws {
+    public required init(contentsOf url: URL!) throws {
         var result:OSStatus = noErr
         fileURL = url
         let audioFileUrl = url as CFURL
@@ -66,10 +66,10 @@ class GenericFileDecoder : NSObject, IDZAudioDecoder {
         AudioFileClose(audioFileID!)
     }
     
-    var fileURL: URL
-    var coverImageData: Data?
-    var dataFormat: AudioStreamBasicDescription = AudioStreamBasicDescription()
-    var duration: TimeInterval = 0.0
+    public var fileURL: URL
+    public var coverImageData: Data?
+    public var dataFormat: AudioStreamBasicDescription = AudioStreamBasicDescription()
+    public var duration: TimeInterval = 0.0
     
     private var currentPacket:Int64 = 0
     private var audioFileID : AudioFileID? = nil
