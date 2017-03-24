@@ -25,6 +25,8 @@
     int channels;
     float sampleRate;
     long totalFrames;
+    
+    dispatch_semaphore_t _sem;
 }
 @property AudioStreamBasicDescription dataFormat;
 @property (nonatomic) NSTimeInterval duration;
@@ -33,7 +35,9 @@
 
 
 @implementation FlacFileDecoder
-
+-(void)signal{
+    dispatch_semaphore_signal(_sem);
+}
 -(id)initWithContentsOfURL:(NSURL *)url error:(NSError *__autoreleasing *)error{
     NSParameterAssert([url isFileURL]);
     self = [super init];
@@ -42,8 +46,8 @@
         NSString* path = [url path];
         mpFile = fopen([path UTF8String], "r");
         decoder = FLAC__stream_decoder_new();
-        [self setupNewDecompressor:decoder];
-        
+        if ([self setupNewDecompressor:decoder] == NO)
+            return nil;
     }
     return self;
 }
@@ -51,6 +55,7 @@
 
 -(BOOL)setupNewDecompressor:(FLAC__StreamDecoder *)aDecoder{
     
+    _sem = dispatch_semaphore_create(0);
     FLAC__stream_decoder_set_metadata_respond(aDecoder, FLAC__METADATA_TYPE_VORBIS_COMMENT);
     FLAC__stream_decoder_set_metadata_respond(aDecoder, FLAC__METADATA_TYPE_PICTURE);
     
@@ -65,7 +70,11 @@
     }
     blockBuffer = malloc(SAMPLE_blockBuffer_SIZE);
     
-    return YES;
+
+    dispatch_time_t delayInNanoSeconds=dispatch_time(DISPATCH_TIME_NOW, 5*NSEC_PER_SEC);
+    dispatch_semaphore_wait(_sem, delayInNanoSeconds);
+
+    return self->channels > 0 ;
 }
 
 -(void)dealloc{
@@ -247,12 +256,16 @@ void MetadataCallback(const FLAC__StreamDecoder *decoder,
         flacDecoder->bitsPerSample = metadata->data.stream_info.bits_per_sample;
         flacDecoder->totalFrames = (long)metadata->data.stream_info.total_samples;
         [flacDecoder fillOutASBD];
+        [flacDecoder signal];
     }
 }
 
 void ErrorCallback(const FLAC__StreamDecoder *decoder,
                    FLAC__StreamDecoderErrorStatus status,
                    void *client_data) {
+    NSLog(@"%s", __PRETTY_FUNCTION__);
+    FlacFileDecoder *flacDecoder = (__bridge FlacFileDecoder *)client_data;
+    [flacDecoder signal];
 }
 
 
