@@ -64,7 +64,7 @@
  * @brief Initializes the receiver with the contents of a file URL.
  *
  * @param url a file URL
- * @param error
+ * @param error Error * Pointer
  * @return a pointer to the receiver or nil if an error occurs
  */
 - (id)initWithContentsOfURL:(NSURL*)url error:(NSError**)error;
