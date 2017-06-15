@@ -372,6 +372,9 @@ static void IDZPropertyListener(void* inUserData,
         case IDZAudioPlayerStateStopping:
             NSLog(@"IDZAudioPlayerStateStopping");
             break;
+        case IDZAudioPlayerStateSeeking:
+            NSLog(@"IDZAudioPlayerStateSeeking");
+            break;
     }
     mState = state;
 }
