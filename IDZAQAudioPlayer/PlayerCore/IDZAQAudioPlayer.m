@@ -285,7 +285,7 @@ static void IDZPropertyListener(void* inUserData,
 {
     UInt32 oRunning = 0;
     UInt32 ioSize = sizeof(oRunning);
-    OSStatus result = AudioQueueGetProperty(mQueue, kAudioQueueProperty_IsRunning, &oRunning, &ioSize);
+    AudioQueueGetProperty(mQueue, kAudioQueueProperty_IsRunning, &oRunning, &ioSize);
     return oRunning;
 }
 - (NSTimeInterval)duration
